@@ -2,8 +2,19 @@ import axios from 'axios';
 import { useCacheStore } from '@/store/cacheStore';
 import type { WordDef } from '@/config/types';
 
+/**
+ * Map tracking in-flight API requests to prevent duplicate network calls for the same word.
+ */
 const inFlightRequests = new Map<string, Promise<WordDef | null>>();
 
+/**
+ * Validates a word using the external Dictionary API.
+ * Uses the cache store to immediately return cached results if available,
+ * and deduplicates concurrent identical requests.
+ * 
+ * @param {string} word - The word to check.
+ * @returns {Promise<WordDef | null>} A Promise resolving to the word data if valid, or null if invalid.
+ */
 export const checkWordValidity = async (word: string): Promise<WordDef | null> => {
   const normalizedWord = word.trim().toLowerCase();
   

@@ -1,5 +1,11 @@
 import { createTheme } from '@mui/material/styles';
 
+/**
+ * Generates Material UI design tokens based on the current color mode.
+ * 
+ * @param {'light' | 'dark'} mode - The current application color mode.
+ * @returns {ThemeOptions} The configured design tokens.
+ */
 const getDesignTokens = (mode: 'light' | 'dark') => ({
   palette: {
     mode,
@@ -119,4 +125,10 @@ const getDesignTokens = (mode: 'light' | 'dark') => ({
   },
 });
 
+/**
+ * Creates and returns a fully configured Material UI theme instance.
+ * 
+ * @param {'light' | 'dark'} mode - The current application color mode.
+ * @returns {Theme} The instantiated Material UI theme.
+ */
 export const createAppTheme = (mode: 'light' | 'dark') => createTheme(getDesignTokens(mode));

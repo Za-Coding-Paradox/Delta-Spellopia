@@ -6,6 +6,13 @@ interface GridProps {
   onLetterClick: (letter: string) => void;
 }
 
+/**
+ * Renders the 3x3 grid of letter tiles, with the center tile distinctively styled.
+ * Provides a fluid, responsive layout using viewport-relative units.
+ * 
+ * @param {GridProps} props - The component props.
+ * @returns {React.ReactElement} The Grid component.
+ */
 export const Grid: React.FC<GridProps> = ({ onLetterClick }) => {
   const { letters, centerLetter, isShaking } = useGameStore();
   const theme = useTheme();

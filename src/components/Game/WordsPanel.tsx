@@ -2,6 +2,12 @@ import React from 'react';
 import { Paper, Typography, Box, Chip } from '@mui/material';
 import { useGameStore } from '@/store/gameStore';
 
+/**
+ * Renders a scrollable list of chips representing all words the user has successfully discovered.
+ * Clicking a chip opens the word information modal.
+ * 
+ * @returns {React.ReactElement} The WordsPanel component.
+ */
 export const WordsPanel: React.FC = () => {
   const { discoveredWords, setSelectedWord } = useGameStore();
 
@@ -38,7 +44,10 @@ export const WordsPanel: React.FC = () => {
           <Chip
             key={index}
             label={word}
-            onClick={() => setSelectedWord(word)}
+            onClick={(e) => {
+              setSelectedWord(word);
+              (e.currentTarget as HTMLElement).blur();
+            }}
             sx={{ textTransform: 'uppercase', fontWeight: 500 }}
             color="primary"
             variant="outlined"

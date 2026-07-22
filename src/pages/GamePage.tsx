@@ -11,6 +11,12 @@ import { WordInfoModal } from '@/components/Modals/WordInfoModal';
 import { useGameStore } from '@/store/gameStore';
 import { checkWordValidity } from '@/api/dictionary';
 
+/**
+ * The main game screen where the user interacts with the letter grid and enters words.
+ * Manages input state, validation logic, and triggers modals.
+ * 
+ * @returns {React.ReactElement} The GamePage component.
+ */
 export const GamePage: React.FC = () => {
   const [input, setInput] = useState('');
   const [isChecking, setIsChecking] = useState(false);
@@ -29,6 +35,11 @@ export const GamePage: React.FC = () => {
     setInput((prev) => prev + letter);
   };
 
+  /**
+   * Handles the submission of the current input word.
+   * Performs length validation, center letter inclusion check, and hits the external API.
+   * Updates scoring and error state based on the result.
+   */
   const handleSubmit = async () => {
     if (!input || isChecking) return;
 

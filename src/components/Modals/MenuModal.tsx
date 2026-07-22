@@ -1,12 +1,21 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, Button, Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '@/store/gameStore';
+import { BaseModal } from '@/components/Modals/BaseModal';
 
+/**
+ * Renders the in-game menu modal, allowing users to resume, view rules, or exit.
+ * 
+ * @returns {React.ReactElement} The MenuModal component.
+ */
 export const MenuModal: React.FC = () => {
   const { isMenuModalOpen, setMenuModalOpen, setRulesModalOpen, resetGame } = useGameStore();
   const navigate = useNavigate();
 
+  /**
+   * Handles the exit action by resetting the game state and navigating to home.
+   */
   const handleExit = () => {
     resetGame();
     setMenuModalOpen(false);
@@ -14,31 +23,29 @@ export const MenuModal: React.FC = () => {
   };
 
   return (
-    <Dialog 
+    <BaseModal 
       open={isMenuModalOpen} 
       onClose={() => setMenuModalOpen(false)}
-      sx={{ '& .MuiDialog-paper': { minWidth: 300, p: 2, textAlign: 'center' } }}
+      title="Menu"
+      maxWidth="xs"
     >
-      <DialogTitle sx={{ fontWeight: 'bold' }}>Menu</DialogTitle>
-      <DialogContent>
-        <Stack spacing={2} sx={{ mt: 2 }}>
-          <Button variant="contained" onClick={() => setMenuModalOpen(false)}>
-            Resume
-          </Button>
-          <Button 
-            variant="outlined" 
-            onClick={() => {
-              setMenuModalOpen(false);
-              setRulesModalOpen(true);
-            }}
-          >
-            Rules
-          </Button>
-          <Button variant="text" color="error" onClick={handleExit}>
-            Exit (Reset Progress)
-          </Button>
-        </Stack>
-      </DialogContent>
-    </Dialog>
+      <Stack spacing={2} sx={{ mt: 2, textAlign: 'center' }}>
+        <Button variant="contained" onClick={() => setMenuModalOpen(false)}>
+          Resume
+        </Button>
+        <Button 
+          variant="outlined" 
+          onClick={() => {
+            setMenuModalOpen(false);
+            setRulesModalOpen(true);
+          }}
+        >
+          Rules
+        </Button>
+        <Button variant="text" color="error" onClick={handleExit}>
+          Exit (Reset Progress)
+        </Button>
+      </Stack>
+    </BaseModal>
   );
 };

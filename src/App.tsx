@@ -7,6 +7,11 @@ import { MenuPage } from '@/pages/MenuPage';
 import { GamePage } from '@/pages/GamePage';
 import './index.css';
 
+/**
+ * The main application component that sets up routing, global theme, and baseline CSS.
+ * 
+ * @returns {React.ReactElement} The root application component.
+ */
 function App() {
   const { theme } = useUIStore();
   const muiTheme = createAppTheme(theme);

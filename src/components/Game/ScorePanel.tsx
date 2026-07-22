@@ -3,6 +3,12 @@ import { Box, Typography, Paper } from '@mui/material';
 import { useGameStore } from '@/store/gameStore';
 import { useUIStore } from '@/store/uiStore';
 
+/**
+ * Renders a visual representation of the player's current score and streak multiplier.
+ * Uses Material UI progress indicators to show relative progress.
+ * 
+ * @returns {React.ReactElement} The ScorePanel component.
+ */
 export const ScorePanel: React.FC = () => {
   const { score, discoveredWords } = useGameStore();
   const { theme } = useUIStore();

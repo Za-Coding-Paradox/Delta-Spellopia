@@ -2,6 +2,11 @@ import React from 'react';
 import { Paper, Typography, Box, Divider } from '@mui/material';
 import { useGameStore } from '@/store/gameStore';
 
+/**
+ * Renders the statistics dashboard, displaying max streak and a breakdown of discovered words by length.
+ * 
+ * @returns {React.ReactElement} The StatsPanel component.
+ */
 export const StatsPanel: React.FC = () => {
   const { score, currentStreak, maxStreak, wordLengthCounts } = useGameStore();
 

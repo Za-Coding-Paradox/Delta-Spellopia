@@ -2,6 +2,10 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { UIState } from '@/config/types';
 
+/**
+ * Zustand store for managing global UI state such as theming and non-game modals.
+ * Persists data to local storage.
+ */
 export const useUIStore = create<UIState>()(
   persist(
     (set) => ({

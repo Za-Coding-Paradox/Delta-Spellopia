@@ -1,9 +1,15 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, Typography, IconButton, Box, Divider } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Typography, Box, Divider } from '@mui/material';
 import { useGameStore } from '@/store/gameStore';
 import { useCacheStore } from '@/store/cacheStore';
+import { BaseModal } from '@/components/Modals/BaseModal';
 
+/**
+ * Renders a modal displaying detailed dictionary information for a selected word,
+ * including phonetics, definitions, synonyms, and antonyms.
+ * 
+ * @returns {React.ReactElement | null} The WordInfoModal component or null if no word is selected.
+ */
 export const WordInfoModal: React.FC = () => {
   const { selectedWord, setSelectedWord } = useGameStore();
   const { checkCache } = useCacheStore();
@@ -15,33 +21,16 @@ export const WordInfoModal: React.FC = () => {
   if (!selectedWord) return null;
 
   return (
-    <Dialog 
+    <BaseModal 
       open={!!selectedWord} 
       onClose={handleClose}
+      title={<Typography variant="h5" sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{selectedWord}</Typography>}
+      subtitle={wordData?.phonetic}
       maxWidth="sm"
-      fullWidth
-      sx={{ '& .MuiDialog-paper': { borderRadius: 4, p: 1 } }}
     >
-      <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Box>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
-            {selectedWord}
-          </Typography>
-          {wordData?.phonetic && (
-            <Typography variant="subtitle2" color="text.secondary">
-              {wordData.phonetic}
-            </Typography>
-          )}
-        </Box>
-        <IconButton onClick={handleClose}>
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      
-      <DialogContent dividers sx={{ borderBottom: 'none' }}>
-        {!wordData ? (
-          <Typography>No dictionary data found.</Typography>
-        ) : (
+      {!wordData ? (
+        <Typography>No dictionary data found.</Typography>
+      ) : (
           wordData.meanings.map((meaning, idx) => (
             <Box key={idx} sx={{ mb: 3 }}>
               <Typography variant="subtitle1" color="primary" gutterBottom sx={{ fontWeight: 'bold', fontStyle: 'italic' }}>
@@ -74,8 +63,7 @@ export const WordInfoModal: React.FC = () => {
               {idx < wordData.meanings.length - 1 && <Divider sx={{ mt: 2 }} />}
             </Box>
           ))
-        )}
-      </DialogContent>
-    </Dialog>
+      )}
+    </BaseModal>
   );
 };

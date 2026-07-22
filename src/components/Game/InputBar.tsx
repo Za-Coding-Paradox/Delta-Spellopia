@@ -9,6 +9,13 @@ interface InputBarProps {
   onDelete: () => void;
 }
 
+/**
+ * Renders the input text field where users can type words.
+ * Listens for keyboard events to allow typing directly.
+ * 
+ * @param {InputBarProps} props - The component props.
+ * @returns {React.ReactElement} The InputBar component.
+ */
 export const InputBar: React.FC<InputBarProps> = ({ value, onChange, onSubmit, onDelete }) => {
   const { isError, centerLetter, letters, clearError } = useGameStore();
   const theme = useTheme();

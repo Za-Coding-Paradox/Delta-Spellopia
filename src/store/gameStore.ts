@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { GameState } from '@/config/types';
 
+/**
+ * A hardcoded dictionary of valid 9-letter pangrams used to generate the game board.
+ */
 const PANGRAMS = [
   'EDUCATION',
   'WONDERFUL',
@@ -9,23 +12,53 @@ const PANGRAMS = [
   'IMPORTANT',
   'KNOWLEDGE',
   'SOMETHING',
-  'CHALLENGE',
-  'DIFFERENT',
-  'AVAILABLE'
+  'COMPUTERS',
+  'DISCOVERY',
+  'CHEMISTRY'
 ];
 
+/**
+ * Selects a random pangram, shuffles its letters, and selects a center letter.
+ * 
+ * @returns {{ letters: string[], centerLetter: string }} The generated game set.
+ */
 const getRandomPangram = () => {
   const word = PANGRAMS[Math.floor(Math.random() * PANGRAMS.length)];
   const letters = word.split('');
-  // Shuffle
-  for (let i = letters.length - 1; i > 0; i--) {
+  
+  // Count frequency to find unique letters
+  const counts = letters.reduce((acc, l) => {
+    acc[l] = (acc[l] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  // Center letter must appear exactly once
+  const uniqueLetters = letters.filter(l => counts[l] === 1);
+  const centerLetter = uniqueLetters[Math.floor(Math.random() * uniqueLetters.length)];
+  
+  // Remove exactly one instance of the center letter from the grid
+  const otherLetters = letters.filter(l => l !== centerLetter);
+  
+  // Shuffle otherLetters
+  for (let i = otherLetters.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [letters[i], letters[j]] = [letters[j], letters[i]];
+    [otherLetters[i], otherLetters[j]] = [otherLetters[j], otherLetters[i]];
   }
-  const centerLetter = letters[Math.floor(Math.random() * letters.length)];
-  return { letters, centerLetter };
+  
+  // Insert centerLetter precisely at index 4 (center of 3x3)
+  const shuffled = [
+    ...otherLetters.slice(0, 4),
+    centerLetter,
+    ...otherLetters.slice(4)
+  ];
+  
+  return { letters: shuffled, centerLetter };
 };
 
+/**
+ * Zustand store for managing the core game state, including letters, scoring, and current progress.
+ * Persists data to local storage so users can resume their game.
+ */
 export const useGameStore = create<GameState>()(
   persist(
     (set, get) => ({

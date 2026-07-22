@@ -1,3 +1,6 @@
+/**
+ * Represents a specific definition of a word.
+ */
 export interface Definition {
   definition: string;
   example?: string;
@@ -5,6 +8,9 @@ export interface Definition {
   antonyms?: string[];
 }
 
+/**
+ * Represents a meaning of a word, categorized by part of speech.
+ */
 export interface Meaning {
   partOfSpeech: string;
   definitions: Definition[];
@@ -12,6 +18,9 @@ export interface Meaning {
   antonyms?: string[];
 }
 
+/**
+ * Complete definition object for a word returned by the dictionary API.
+ */
 export interface WordDef {
   word: string;
   phonetic?: string;
@@ -19,10 +28,16 @@ export interface WordDef {
   meanings: Meaning[];
 }
 
+/**
+ * Tracks the count of discovered words grouped by their length.
+ */
 export interface WordLengthCounts {
   [key: number]: number; // 3, 4, 5+
 }
 
+/**
+ * The core state and actions for the game logic.
+ */
 export interface GameState {
   letters: string[];
   centerLetter: string;
@@ -52,6 +67,9 @@ export interface GameState {
   breakStreak: () => void;
 }
 
+/**
+ * The state and actions for application-wide UI and settings.
+ */
 export interface UIState {
   theme: 'dark' | 'light';
   isStatsOpen: boolean;
@@ -61,6 +79,9 @@ export interface UIState {
   setSettingsModalOpen: (isOpen: boolean) => void;
 }
 
+/**
+ * The state and actions for caching dictionary API responses.
+ */
 export interface CacheState {
   // We store the first definition result if valid, or null if invalid
   wordCache: Record<string, WordDef | null>;

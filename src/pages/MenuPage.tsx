@@ -6,6 +6,12 @@ import { SettingsModal } from '@/components/Modals/SettingsModal';
 import { StatsModal } from '@/components/Modals/StatsModal';
 import { useGameStore } from '@/store/gameStore';
 
+/**
+ * The landing page of the application providing navigation to start the game
+ * or view rules and settings.
+ * 
+ * @returns {React.ReactElement} The MenuPage component.
+ */
 export const MenuPage: React.FC = () => {
   const navigate = useNavigate();
   const { resetGame } = useGameStore();

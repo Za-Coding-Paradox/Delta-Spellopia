@@ -1,21 +1,27 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, Typography, Button, DialogActions } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import { useUIStore } from '@/store/uiStore';
+import { BaseModal } from '@/components/Modals/BaseModal';
 
+/**
+ * Renders the settings modal for application configuration.
+ * 
+ * @returns {React.ReactElement} The SettingsModal component.
+ */
 export const SettingsModal: React.FC = () => {
   const { isSettingsModalOpen, setSettingsModalOpen } = useUIStore();
 
   return (
-    <Dialog open={isSettingsModalOpen} onClose={() => setSettingsModalOpen(false)}>
-      <DialogTitle sx={{ fontWeight: 'bold' }}>Settings</DialogTitle>
-      <DialogContent>
-        <Typography variant="body1" sx={{ fontStyle: 'italic', color: 'text.secondary' }}>
-          Under working... Check back later!
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setSettingsModalOpen(false)}>Close</Button>
-      </DialogActions>
-    </Dialog>
+    <BaseModal 
+      open={isSettingsModalOpen} 
+      onClose={() => setSettingsModalOpen(false)}
+      title="Settings"
+      maxWidth="xs"
+      actions={<Button onClick={() => setSettingsModalOpen(false)}>Close</Button>}
+    >
+      <Typography variant="body1" sx={{ fontStyle: 'italic', color: 'text.secondary' }}>
+        Under working... Check back later!
+      </Typography>
+    </BaseModal>
   );
 };
